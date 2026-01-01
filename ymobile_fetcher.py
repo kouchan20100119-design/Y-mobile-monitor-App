@@ -157,9 +157,9 @@ class YmobileFetcher:
             used_text = tables[3].find("tbody").find("tr").find("td").text.replace("\t", "").replace("\n", "").replace("GB", "").strip()
             used = float(used_text)
             
-            # 残量 = 基本 + 繰越 - 使用済み
-            remaining = kihon + kurikoshi - used
-            total = kihon + kurikoshi
+            # 残量はtotal-使用済み
+            total = kihon + kurikoshi + yuryou
+            remaining = total - used
             percentage = (used / total) * 100 if total > 0 else 0
             
             return {
@@ -203,7 +203,7 @@ def main():
     """スタンドアロン実行用"""
     
     # 認証情報チェック
-    if YMOBILE_PASSWORD == "your_password_here":
+    if YMOBILE_PASSWORD == ["YOUR_PASSWORD", "your_password_here"]:
         print("=" * 60)
         print("❌ エラー: パスワードが設定されていません")
         print("=" * 60)
