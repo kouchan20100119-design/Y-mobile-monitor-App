@@ -36,6 +36,7 @@ jobs:
 
       - name: Flet Build APK
         run: |
+          pip install -r requirements.txt
           yes | flet build apk --verbose
 
       - name: Upload APK
