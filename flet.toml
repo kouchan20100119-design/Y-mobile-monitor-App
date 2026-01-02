@@ -1,0 +1,17 @@
+[project]
+name = "ymobile_checker"
+version = "1.0.0"
+description = "Y!mobile data checker"
+
+[build]
+# 必須パッケージを明示的に指定
+include_packages = ["requests", "beautifulsoup4", "bs4", "urllib3", "certifi", "charset_normalizer", "idna", "soupsieve"]
+
+[build.android]
+# Androidパーミッション
+permissions = ["INTERNET", "ACCESS_NETWORK_STATE"]
+
+# ビルド設定
+build_number = 1
+min_sdk_version = 21
+target_sdk_version = 34
