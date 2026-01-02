@@ -1,0 +1,14 @@
+name: ymobile_checker
+description: Y!mobile data checker app
+version: 1.0.0
+build_number: 1
+
+permissions:
+  android:
+    - INTERNET
+    - ACCESS_NETWORK_STATE
+
+dependencies:
+  - requests
+  - beautifulsoup4
+  - flet
