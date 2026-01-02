@@ -24,10 +24,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Setup Flutter
+      - name: Setup Flutter (latest stable)
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          channel: 'stable'
+          # バージョンを指定せず最新を使う
 
       - name: Install Build Tools
         run: |
@@ -35,19 +36,33 @@ jobs:
           pip install flet
 
       - name: Flet Build APK
+        env:
+          FLET_BUILD_VERBOSE: "true"
         run: |
-          flet build apk \
+          # 非対話モードでビルド
+          echo "y" | flet build apk \
             --verbose \
             --module-name main \
             --project ymobile-checker \
             --build-number 1 \
             --build-version 1.0.0
+        continue-on-error: false
+
+      - name: List build directory
+        if: always()
+        run: |
+          echo "=== Checking build directory ==="
+          ls -la build/ || echo "No build directory"
+          find . -name "*.apk" || echo "No APK found"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: ymobile-checker-app
-          path: build/apk/*.apk
+          path: |
+            build/apk/*.apk
+            build/app/outputs/flutter-apk/*.apk
           
       - name: Upload Build Logs (on failure)
         if: failure()
